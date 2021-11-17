@@ -6,6 +6,7 @@
     <string name="hint_cryptoInitialPriceUSD">Initial Price (USD)</string>
     <string name="hint_cryptoAmountInvestedUSD">Amount Invested (USD)</string>
     <string name="hint_cryptoCurrentPriceUSD">CurrentPrice (USD)</string>
-
+    <string name="menu_addCrypto">Add</string>
+    <string name="menu_cancelCrypto">Cancel</string>
 
 </resources>
