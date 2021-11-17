@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Cryptocurrency</string>
+    <string name="button_addCrypto">Add Cryptocurrency</string>
+    <string name="hint_cryptoName">Name</string>
+    <string name="hint_cryptoSymbol">Symbol</string>
+    <string name="hint_cryptoInitialPriceUSD">Initial Price (USD)</string>
+    <string name="hint_cryptoAmountInvestedUSD">Amount Invested (USD)</string>
+    <string name="hint_cryptoCurrentPriceUSD">CurrentPrice (USD)</string>
+
+
+</resources>
