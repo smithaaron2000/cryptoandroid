@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.wit.cryptocurrency.R
 import org.wit.cryptocurrency.adapters.CryptocurrencyAdapter
+import org.wit.cryptocurrency.adapters.CryptocurrencyListener
 import org.wit.cryptocurrency.databinding.ActivityCryptocurrencyListBinding
 import org.wit.cryptocurrency.main.MainApp
+import org.wit.cryptocurrency.models.CryptocurrencyModel
 
-class CryptocurrencyListActivity : AppCompatActivity() {
+class CryptocurrencyListActivity : AppCompatActivity(), CryptocurrencyListener {
 
     lateinit var app: MainApp
     private lateinit var binding: ActivityCryptocurrencyListBinding
@@ -27,9 +30,9 @@ class CryptocurrencyListActivity : AppCompatActivity() {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = CryptocurrencyAdapter(app.cryptos)
-
+        binding.recyclerView.adapter = CryptocurrencyAdapter(app.cryptos.findAll(), this)
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
@@ -42,5 +45,15 @@ class CryptocurrencyListActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+    override fun onCryptoClick(crypto: CryptocurrencyModel) {
+        val launcherIntent = Intent(this, CryptocurrencyActivity::class.java)
+        launcherIntent.putExtra("cryptocurrency_edit", crypto)
+        startActivityForResult(launcherIntent,0)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        binding.recyclerView.adapter?.notifyDataSetChanged()
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

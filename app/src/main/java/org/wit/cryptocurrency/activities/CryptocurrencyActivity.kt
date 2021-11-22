@@ -22,6 +22,7 @@ class CryptocurrencyActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        var edit = false
 
         binding = ActivityCryptocurrencyBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -30,28 +31,36 @@ class CryptocurrencyActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarAdd)
 
         app = application as MainApp
-        i("Cryptocurrency Activity Started...")
+
+        if (intent.hasExtra("cryptocurrency_edit")) {
+            edit = true
+            crypto = intent.extras?.getParcelable("cryptocurrency_edit")!!
+            binding.cryptoName.setText(crypto.name)
+            binding.cryptoSymbol.setText(crypto.symbol)
+            binding.cryptoInitialPriceUSD.setText(crypto.initial_price_usd.toString())
+            binding.cryptoAmountInvestedUSD.setText(crypto.amount_invested_usd.toString())
+            binding.cryptoCurrentPriceUSD.setText(crypto.current_price_usd.toString())
+            binding.btnAdd.setText(R.string.save_crypto)
+        }
         binding.btnAdd.setOnClickListener() {
             crypto.name = binding.cryptoName.text.toString()
             crypto.symbol = binding.cryptoSymbol.text.toString()
-            //crypto.initial_price_usd = binding.cryptoInitialPriceUSD.text.toString().toDouble()
-            //crypto.amount_invested_usd = binding.cryptoAmountInvestedUSD.text.toString().toDouble()
-            //crypto.current_price_usd = binding.cryptoCurrentPriceUSD.text.toString().toDouble()
-            if (crypto.name.isNotEmpty()) {
-                app.cryptos.add(crypto.copy())
-                i("add Button Pressed: ${crypto}")
-                for (i in app.cryptos.indices)
-                {
-                    i("Cryptocurrency[$i]:${this.app.cryptos[i]}")
-                }
-                setResult(RESULT_OK)
-                finish()
-            }
-            else {
-                Snackbar
-                    .make(it,"Please Enter a Name", Snackbar.LENGTH_LONG)
+            crypto.initial_price_usd = binding.cryptoInitialPriceUSD.text.toString().toDouble()
+            crypto.amount_invested_usd = binding.cryptoAmountInvestedUSD.text.toString().toDouble()
+            crypto.current_price_usd = binding.cryptoCurrentPriceUSD.text.toString().toDouble()
+            if (crypto.name.isEmpty()) {
+                Snackbar.make(it,R.string.enter_crypto_name, Snackbar.LENGTH_LONG)
                     .show()
             }
+            else {
+                if (edit) {
+                    app.cryptos.update(crypto.copy())
+                } else {
+                    app.cryptos.create(crypto.copy())
+                }
+            }
+            setResult(RESULT_OK)
+            finish()
         }
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

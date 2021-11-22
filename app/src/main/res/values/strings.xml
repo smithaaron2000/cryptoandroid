@@ -8,5 +8,7 @@
     <string name="hint_cryptoCurrentPriceUSD">CurrentPrice (USD)</string>
     <string name="menu_addCrypto">Add</string>
     <string name="menu_cancelCrypto">Cancel</string>
+    <string name="enter_crypto_name">Please Enter a Name</string>
+    <string name="save_crypto"> Save Cryptocurrency </string>
 
 </resources>
