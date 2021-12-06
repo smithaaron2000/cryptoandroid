@@ -6,6 +6,12 @@
     <string name="hint_cryptoInitialPriceUSD">Initial Price (USD)</string>
     <string name="hint_cryptoAmountInvestedUSD">Amount Invested (USD)</string>
     <string name="hint_cryptoCurrentPriceUSD">CurrentPrice (USD)</string>
-
+    <string name="menu_addCrypto">Add</string>
+    <string name="menu_cancelCrypto">Cancel</string>
+    <string name="enter_crypto_name">Please Enter a Name</string>
+    <string name="save_crypto"> Save Cryptocurrency </string>
+    <string name="button_addImage"> Add Image </string>
+    <string name="select_crypto_image">Select Cryptocurrency Image</string>
+    <string name="change_crypto_image">Change Cryptocurrency Image</string>
 
 </resources>
