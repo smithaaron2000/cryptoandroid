@@ -31,7 +31,7 @@ class CryptocurrencyMemStore : CryptocurrencyStore {
             foundCrypto.current_price_usd = crypto.current_price_usd
             foundCrypto.investment_value = crypto.num_shares * crypto.current_price_usd
             foundCrypto.return_on_investment = crypto.investment_value - crypto.amount_invested_usd
-
+            foundCrypto.image = crypto.image
             logAll()
         }
     }

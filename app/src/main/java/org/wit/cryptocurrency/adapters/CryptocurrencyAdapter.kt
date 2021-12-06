@@ -3,6 +3,7 @@ package org.wit.cryptocurrency.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import org.wit.cryptocurrency.databinding.CardCryptocurrencyBinding
 import org.wit.cryptocurrency.models.CryptocurrencyModel
 
@@ -34,6 +35,7 @@ class CryptocurrencyAdapter constructor(private var cryptos: List<Cryptocurrency
         fun bind(crypto: CryptocurrencyModel, listener: CryptocurrencyListener) {
             binding.cryptoName.text = crypto.name
             binding.cryptoSymbol.text = crypto.symbol
+            Picasso.get().load(crypto.image).resize(200,200).into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onCryptoClick(crypto)}
         }
     }

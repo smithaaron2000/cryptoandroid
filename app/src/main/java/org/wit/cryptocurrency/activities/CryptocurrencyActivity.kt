@@ -1,12 +1,18 @@
 package org.wit.cryptocurrency.activities
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import org.wit.cryptocurrency.R
 import org.wit.cryptocurrency.databinding.ActivityCryptocurrencyBinding
+import org.wit.cryptocurrency.helpers.showImagePicker
 import org.wit.cryptocurrency.main.MainApp
 import org.wit.cryptocurrency.models.CryptocurrencyModel
 import timber.log.Timber
@@ -15,6 +21,7 @@ import timber.log.Timber.i
 class CryptocurrencyActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCryptocurrencyBinding
+    private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     var crypto = CryptocurrencyModel()
     lateinit var app : MainApp
     //val cryptos = ArrayList<CryptocurrencyModel>()
@@ -41,6 +48,13 @@ class CryptocurrencyActivity : AppCompatActivity() {
             binding.cryptoAmountInvestedUSD.setText(crypto.amount_invested_usd.toString())
             binding.cryptoCurrentPriceUSD.setText(crypto.current_price_usd.toString())
             binding.btnAdd.setText(R.string.save_crypto)
+
+            Picasso.get()
+                .load(crypto.image)
+                .into(binding.cryptoImage)
+            if (crypto.image != Uri.EMPTY) {
+                binding.chooseImage.setText(R.string.change_crypto_image)
+            }
         }
         binding.btnAdd.setOnClickListener() {
             crypto.name = binding.cryptoName.text.toString()
@@ -62,6 +76,13 @@ class CryptocurrencyActivity : AppCompatActivity() {
             setResult(RESULT_OK)
             finish()
         }
+
+        binding.chooseImage.setOnClickListener {
+            i("Select Image")
+            showImagePicker(imageIntentLauncher)
+        }
+
+        registerImagePickerCallback()
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_cryptocurrency, menu)
@@ -74,5 +95,25 @@ class CryptocurrencyActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Result ${result.data!!.data}")
+                            crypto.image = result.data!!.data!!
+                            Picasso.get()
+                                .load(crypto.image)
+                                .into(binding.cryptoImage)
+                            binding.chooseImage.setText(R.string.change_crypto_image)
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 }
