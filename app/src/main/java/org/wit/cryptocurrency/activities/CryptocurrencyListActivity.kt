@@ -32,7 +32,7 @@ class CryptocurrencyListActivity : AppCompatActivity(), CryptocurrencyListener {
 
         val layoutManager = LinearLayoutManager(this)
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = CryptocurrencyAdapter(app.cryptos.findAll(), this)
+        loadCryptos()
 
         registerRefreshCallback()
     }
@@ -64,6 +64,15 @@ class CryptocurrencyListActivity : AppCompatActivity(), CryptocurrencyListener {
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { binding.recyclerView.adapter?.notifyDataSetChanged() }
+            { loadCryptos() }
+    }
+
+    private fun loadCryptos() {
+        showCryptos(app.cryptos.findAll())
+    }
+
+    fun showCryptos (cryptos: List<CryptocurrencyModel>) {
+        binding.recyclerView.adapter = CryptocurrencyAdapter(cryptos, this)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 }

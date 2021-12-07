@@ -24,14 +24,13 @@ class CryptocurrencyActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCryptocurrencyBinding
     private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
-
+    var edit = false
     var crypto = CryptocurrencyModel()
     lateinit var app : MainApp
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var edit = false
 
         binding = ActivityCryptocurrencyBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -101,10 +100,15 @@ class CryptocurrencyActivity : AppCompatActivity() {
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_cryptocurrency, menu)
+        if (edit) menu.getItem(0).isVisible = true
         return super.onCreateOptionsMenu(menu)
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.item_delete -> {
+                app.cryptos.delete(crypto)
+                finish()
+            }
             R.id.item_cancel -> {
                 finish()
             }

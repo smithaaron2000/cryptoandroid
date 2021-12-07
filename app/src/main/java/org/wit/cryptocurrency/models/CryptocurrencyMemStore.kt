@@ -38,6 +38,12 @@ class CryptocurrencyMemStore : CryptocurrencyStore {
             logAll()
         }
     }
+
+    override fun delete(crypto: CryptocurrencyModel) {
+        cryptos.remove(crypto)
+    }
+
+
     fun logAll() {
         cryptos.forEach{ i("${it}") }
     }

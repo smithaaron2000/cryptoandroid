@@ -15,4 +15,5 @@
     <string name="change_crypto_image">Change Cryptocurrency Image</string>
     <string name="button_location">Set Location</string>
     <string name="title_activity_map">MapActivity</string>
+    <string name="menu_deleteCrypto">Delete</string>
 </resources>
