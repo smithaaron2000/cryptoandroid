@@ -13,5 +13,6 @@
     <string name="button_addImage"> Add Image </string>
     <string name="select_crypto_image">Select Cryptocurrency Image</string>
     <string name="change_crypto_image">Change Cryptocurrency Image</string>
-
+    <string name="button_location">Set Location</string>
+    <string name="title_activity_map">MapActivity</string>
 </resources>
