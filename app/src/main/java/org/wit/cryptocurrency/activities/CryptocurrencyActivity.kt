@@ -15,6 +15,7 @@ import org.wit.cryptocurrency.databinding.ActivityCryptocurrencyBinding
 import org.wit.cryptocurrency.helpers.showImagePicker
 import org.wit.cryptocurrency.main.MainApp
 import org.wit.cryptocurrency.models.CryptocurrencyModel
+import org.wit.cryptocurrency.models.Location
 import timber.log.Timber
 import timber.log.Timber.i
 
@@ -22,9 +23,10 @@ class CryptocurrencyActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCryptocurrencyBinding
     private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
+
     var crypto = CryptocurrencyModel()
     lateinit var app : MainApp
-    //val cryptos = ArrayList<CryptocurrencyModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +84,20 @@ class CryptocurrencyActivity : AppCompatActivity() {
             showImagePicker(imageIntentLauncher)
         }
 
+        binding.cryptoLocation.setOnClickListener {
+            val location = Location(52.245696, -7.139102, 15f)
+            if (crypto.zoom != 0f) {
+                location.lat =  crypto.lat
+                location.lng = crypto.lng
+                location.zoom = crypto.zoom
+            }
+            val launcherIntent = Intent(this, MapActivity::class.java)
+                .putExtra("location", location)
+            mapIntentLauncher.launch(launcherIntent)
+        }
+
         registerImagePickerCallback()
+        registerMapCallback()
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_cryptocurrency, menu)
@@ -110,6 +125,26 @@ class CryptocurrencyActivity : AppCompatActivity() {
                                 .load(crypto.image)
                                 .into(binding.cryptoImage)
                             binding.chooseImage.setText(R.string.change_crypto_image)
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when (result.resultCode) {
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Location ${result.data.toString()}")
+                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
+                            i("Location == $location")
+                            crypto.lat = location.lat
+                            crypto.lng = location.lng
+                            crypto.zoom = location.zoom
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }
