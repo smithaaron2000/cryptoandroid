@@ -1,14 +1,22 @@
 package org.wit.cryptocurrency.activities
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonElement
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
 import com.squareup.picasso.Picasso
 import org.wit.cryptocurrency.R
 import org.wit.cryptocurrency.databinding.ActivityCryptocurrencyBinding
@@ -17,7 +25,9 @@ import org.wit.cryptocurrency.main.MainApp
 import org.wit.cryptocurrency.models.CryptocurrencyModel
 import org.wit.cryptocurrency.models.Location
 import timber.log.Timber
-import timber.log.Timber.i
+import timber.log.Timber.*
+import java.lang.reflect.Type
+
 
 class CryptocurrencyActivity : AppCompatActivity() {
 
@@ -27,6 +37,7 @@ class CryptocurrencyActivity : AppCompatActivity() {
     var edit = false
     var crypto = CryptocurrencyModel()
     lateinit var app : MainApp
+    val firestore = Firebase.firestore
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,12 +59,16 @@ class CryptocurrencyActivity : AppCompatActivity() {
             binding.cryptoInitialPriceUSD.setText(crypto.initial_price_usd.toString())
             binding.cryptoAmountInvestedUSD.setText(crypto.amount_invested_usd.toString())
             binding.cryptoCurrentPriceUSD.setText(crypto.current_price_usd.toString())
+            binding.cryptoNumShares.text = crypto.num_shares.toString()
+            binding.cryptoInvestmentValue.text = crypto.investment_value.toString()
+            binding.cryptoROI.text = crypto.return_on_investment.toString()
+
             binding.btnAdd.setText(R.string.save_crypto)
 
             Picasso.get()
                 .load(crypto.image)
                 .into(binding.cryptoImage)
-            if (crypto.image != Uri.EMPTY) {
+            if (crypto.image != "") {
                 binding.chooseImage.setText(R.string.change_crypto_image)
             }
         }
@@ -63,6 +78,10 @@ class CryptocurrencyActivity : AppCompatActivity() {
             crypto.initial_price_usd = binding.cryptoInitialPriceUSD.text.toString().toDouble()
             crypto.amount_invested_usd = binding.cryptoAmountInvestedUSD.text.toString().toDouble()
             crypto.current_price_usd = binding.cryptoCurrentPriceUSD.text.toString().toDouble()
+            crypto.num_shares = crypto.amount_invested_usd / crypto.initial_price_usd
+            crypto.investment_value = crypto.num_shares * crypto.current_price_usd
+            crypto.return_on_investment = crypto.investment_value - crypto.amount_invested_usd
+
             if (crypto.name.isEmpty()) {
                 Snackbar.make(it,R.string.enter_crypto_name, Snackbar.LENGTH_LONG)
                     .show()
@@ -70,8 +89,10 @@ class CryptocurrencyActivity : AppCompatActivity() {
             else {
                 if (edit) {
                     app.cryptos.update(crypto.copy())
+                    firestoreUpload()
                 } else {
                     app.cryptos.create(crypto.copy())
+                    firestoreUpload()
                 }
             }
             setResult(RESULT_OK)
@@ -107,6 +128,7 @@ class CryptocurrencyActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.item_delete -> {
                 app.cryptos.delete(crypto)
+                firestoreDelete()
                 finish()
             }
             R.id.item_cancel -> {
@@ -124,7 +146,7 @@ class CryptocurrencyActivity : AppCompatActivity() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
-                            crypto.image = result.data!!.data!!
+                            crypto.image = result.data!!.data.toString()!!
                             Picasso.get()
                                 .load(crypto.image)
                                 .into(binding.cryptoImage)
@@ -154,5 +176,25 @@ class CryptocurrencyActivity : AppCompatActivity() {
                     RESULT_CANCELED -> { } else -> { }
                 }
             }
+    }
+
+    private fun firestoreUpload() {
+        firestore.collection("cryptos").document(crypto.name)
+            .set(crypto)
+            .addOnSuccessListener {
+                i("DocumentSnapshot added")
+            }
+            .addOnFailureListener { e ->
+                i(e, "Error adding document")
+            }
+    }
+
+    private fun firestoreDelete() {
+        firestore.collection("cryptos").document(crypto.name)
+            .delete()
+            .addOnSuccessListener {
+                i("DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e ->
+                i(e, "Error deleting document") }
     }
 }

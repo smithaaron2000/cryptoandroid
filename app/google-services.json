@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "134456595286",
+    "project_id": "crypto-tracker-333621",
+    "storage_bucket": "crypto-tracker-333621.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134456595286:android:27ad7143bec617a9d2bcf7",
+        "android_client_info": {
+          "package_name": "org.wit.cryptocurrency"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134456595286-3i333kl6feadh519avjr9mai4uprt77v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.wit.cryptocurrency",
+            "certificate_hash": "b6fb73b0221b7df00729b906eb576a99d40f6a8e"
+          }
+        },
+        {
+          "client_id": "134456595286-sgk55fj3ncpjsi2t83n885gnb720daq2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACQx_KxNGavIh3ycReej_6_xIWs6ebzFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134456595286-sgk55fj3ncpjsi2t83n885gnb720daq2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

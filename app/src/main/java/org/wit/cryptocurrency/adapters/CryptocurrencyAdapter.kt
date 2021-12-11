@@ -1,5 +1,6 @@
 package org.wit.cryptocurrency.adapters
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +14,7 @@ interface CryptocurrencyListener {
 
 class CryptocurrencyAdapter constructor(private var cryptos: List<CryptocurrencyModel>,
                                         private val listener: CryptocurrencyListener) :
+
     RecyclerView.Adapter<CryptocurrencyAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -35,6 +37,7 @@ class CryptocurrencyAdapter constructor(private var cryptos: List<Cryptocurrency
         fun bind(crypto: CryptocurrencyModel, listener: CryptocurrencyListener) {
             binding.cryptoName.text = crypto.name
             binding.cryptoSymbol.text = crypto.symbol
+            binding.cryptoValue.text = crypto.investment_value.toString()
             Picasso.get().load(crypto.image).resize(200,200).into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onCryptoClick(crypto)}
         }
