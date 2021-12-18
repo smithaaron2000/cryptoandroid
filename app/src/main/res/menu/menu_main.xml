@@ -7,4 +7,6 @@
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/menu_addCrypto"
         app:showAsAction="always" />
+
+
 </menu>

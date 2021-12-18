@@ -1,6 +1,5 @@
 package org.wit.cryptocurrency.models
 
-import android.net.Uri
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
@@ -16,7 +15,6 @@ data class CryptocurrencyModel(
     var investment_value: Double = num_shares * current_price_usd,
     var return_on_investment: Double = investment_value - amount_invested_usd,
     var image: String = "",
-    //var image: Uri = Uri.EMPTY,
     var lat : Double = 0.0,
     var lng: Double = 0.0,
     var zoom: Float = 0f) : Parcelable

@@ -56,6 +56,7 @@ class CryptocurrencyListActivity : AppCompatActivity(), CryptocurrencyListener {
         refreshIntentLauncher.launch(launcherIntent)
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         binding.recyclerView.adapter?.notifyDataSetChanged()
         super.onActivityResult(requestCode, resultCode, data)

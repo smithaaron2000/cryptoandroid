@@ -1,28 +1,16 @@
 package org.wit.cryptocurrency.activities
 
-import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import com.google.android.gms.tasks.Continuation
-import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonElement
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.internal.bind.TypeAdapters.UUID
 import com.squareup.picasso.Picasso
 import org.wit.cryptocurrency.R
 import org.wit.cryptocurrency.databinding.ActivityCryptocurrencyBinding
@@ -30,17 +18,9 @@ import org.wit.cryptocurrency.helpers.showImagePicker
 import org.wit.cryptocurrency.main.MainApp
 import org.wit.cryptocurrency.models.CryptocurrencyModel
 import org.wit.cryptocurrency.models.Location
-import org.wit.cryptocurrency.models.generateRandomId
-import timber.log.Timber
 import timber.log.Timber.*
-import java.io.IOException
-import java.lang.reflect.Type
-
-import androidx.annotation.NonNull
-
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.*
-
 
 class CryptocurrencyActivity : AppCompatActivity() {
 
@@ -82,12 +62,9 @@ class CryptocurrencyActivity : AppCompatActivity() {
             if (Uri.parse(crypto.image) != Uri.EMPTY) {
                 binding.chooseImage.setText(R.string.change_crypto_image)
             }
-            else {
-                i("Funky error")
-            }
+
         }
         binding.btnAdd.setOnClickListener() {
-            crypto.id = generateRandomId()
             crypto.name = binding.cryptoName.text.toString()
             crypto.symbol = binding.cryptoSymbol.text.toString()
             crypto.initial_price_usd = binding.cryptoInitialPriceUSD.text.toString().toDouble()
@@ -214,7 +191,7 @@ class CryptocurrencyActivity : AppCompatActivity() {
                     itemsRef.document(document.id).set(crypto)
                 }
             } else {
-                Log.d(TAG, "Error getting documents: ", task.exception)
+                i(task.exception, "Error getting documents: ")
             }
         })
     }
@@ -229,7 +206,7 @@ class CryptocurrencyActivity : AppCompatActivity() {
                     itemsRef.document(document.id).delete()
                 }
             } else {
-                Log.d(TAG, "Error getting documents: ", task.exception)
+                i(task.exception, "Error getting documents: ")
             }
         })
     }
