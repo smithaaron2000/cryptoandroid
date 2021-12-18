@@ -4,15 +4,21 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout-w1240dp/activity_login.xml" value="0.214190093708166" />
+        <entry key="app/src/main/res/layout-w1240dp/activity_login2.xml" value="0.1639892904953146" />
         <entry key="app/src/main/res/layout-w936dp/activity_login.xml" value="0.23189890710382513" />
         <entry key="app/src/main/res/layout/activity_cryptocurrency.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_cryptocurrency_list.xml" value="0.21197916666666666" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.307518115942029" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_login2.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/activity_map.xml" value="0.24003623188405798" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.19157608695652173" />
         <entry key="app/src/main/res/layout/card_cryptocurrency.xml" value="0.21197916666666666" />
+        <entry key="app/src/main/res/layout/login.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/layout/login_cryptocurrency.xml" value="0.24003623188405798" />
         <entry key="app/src/main/res/menu/menu_cryptocurrency.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.37604166666666666" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2671794871794872" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2671794871794872" />
       </map>
     </option>
   </component>

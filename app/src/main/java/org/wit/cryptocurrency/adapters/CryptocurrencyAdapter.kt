@@ -38,7 +38,7 @@ class CryptocurrencyAdapter constructor(private var cryptos: List<Cryptocurrency
             binding.cryptoName.text = crypto.name
             binding.cryptoSymbol.text = crypto.symbol
             binding.cryptoValue.text = crypto.investment_value.toString()
-            //var convertedUri: Uri? = Uri.parse(crypto.image)
+            binding.cryptoNumShares.text = crypto.num_shares.toString()
             Picasso.get().load(Uri.parse(crypto.image)).resize(200,200).into(binding.imageIcon)
             binding.root.setOnClickListener { listener.onCryptoClick(crypto)}
         }
